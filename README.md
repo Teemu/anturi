@@ -20,7 +20,7 @@ npx anturi -t "token here"
 
 ## Usage with anturi.nuudeli.com
 
-1. Sign up for a free account at anturi.nuudeli.com.
+1. Sign up for a free account at [anturi.nuudeli.com](https://anturi.nuudeli.com).
 2. After logging in, you will receive a token.
 3. Use the token with the Anturi client application:
 
