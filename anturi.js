@@ -4,12 +4,11 @@ import axios from 'axios';
 
 import chalk from 'chalk';
 import { program } from 'commander';
-import { version } from './package.json';
 
 program
   .name('anturi')
   .description('Send data to anturi.nuudeli.com from Ruuvi sensors')
-  .version('0.2.0')
+  .version('0.2.1')
   .option('--url <value>', 'send sensor data to this URL')
   .option('--filter <value...>', 'send only these sensor MAC addresses')
   .option('--timeout <numbers>', 'close Anturi after seconds')
