@@ -6,11 +6,15 @@ Anturi is a free client app that sends data from Ruuvi sensors to the cloud-base
 
 You can install Anturi with npm:
 
-> npm install -g anturi
+````
+npm install -g anturi
+````
 
 Alternatively, you can use `npx` to install and run Anturi:
 
-> npx anturi -t "token here"
+````
+npx anturi -t "token here"
+````
 
 **Note:** `npx` is a package runner tool that comes bundled with npm. You should already have it if you have installed the latest Node.js.
 
@@ -20,7 +24,9 @@ Alternatively, you can use `npx` to install and run Anturi:
 2. After logging in, you will receive a token.
 3. Use the token with the Anturi client application:
 
-> npx anturi -t "token here"
+````
+npx anturi -t "token here"
+````
 
 Anturi will automatically detect sensors and start sending data. After the first sensors have sent data, you should see sensor data in your dashboard. This can take around 10 seconds.
 
@@ -28,19 +34,27 @@ Anturi will automatically detect sensors and start sending data. After the first
 
 You can also use Anturi without the cloud-based solution. In this case, data will not be sent anywhere.
 
-> npx anturi
+````
+npx anturi
+````
 
 Send data for 60 seconds and then shut down (suitable for recurring cron jobs):
 
-> npx anturi --timeout 60
+````
+npx anturi --timeout 60
+````
 
 Filter out sensors by MAC address (to prevent sending data from neighbor sensors):
 
-> npx anturi --filter "00:11:22:33:44:55"
+````
+npx anturi --filter "00:11:22:33:44:55"
+````
 
 Use an alternative cloud-solution:
 
-> npx anturi --url "https://your_cloud_solution.com"
+````
+npx anturi --url "https://your_cloud_solution.com"
+````
 
 ## Contribution
 
