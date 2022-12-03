@@ -8,7 +8,7 @@ import { program } from 'commander';
 program
   .name('anturi')
   .description('Send data to anturi.nuudeli.com from Ruuvi sensors')
-  .version('0.2.2')
+  .version('0.2.3')
   .option('--url <value>', 'send sensor data to this URL')
   .option('--filter <value...>', 'send only these sensor MAC addresses')
   .option('--timeout <numbers>', 'close Anturi after seconds')
@@ -68,11 +68,16 @@ const SENSOR_UPDATE_FREQUENCY = 10 * 60 * 1000; // 10 minutes
 const SENSOR_JITTER = 10 * 1000; // 10 second jitter
 
 ruuvi.on('found', (tag) => {
-  console.log(chalk.green('📡 Found new RuuviTag'), tag.id);
+  console.log(
+    chalk.yellow(new Date().toLocaleTimeString()),
+    chalk.green('📡 Found new RuuviTag'),
+    tag.id,
+  );
   tag.on('updated', (data) => {
     if (options.filter.length && !options.filter.includes(data.mac)) {
       if (!wasSensorBeenFiltered[data.mac]) {
         console.log(
+          chalk.yellow(new Date().toLocaleTimeString()),
           chalk.white(data.mac),
           chalk.yellow('Filtering out responses from this RuuviTag sensor'),
         );
@@ -81,6 +86,7 @@ ruuvi.on('found', (tag) => {
       }
     }
     console.log(
+      chalk.yellow(new Date().toLocaleTimeString()),
       chalk.white(data.mac),
       'temperature:',
       chalk.yellow(String(data.temperature) + ' °C'),
@@ -91,6 +97,7 @@ ruuvi.on('found', (tag) => {
       var diff = Date.now() - dataSentAt[data.mac];
       if (diff < SENSOR_UPDATE_FREQUENCY) {
         console.log(
+          chalk.yellow(new Date().toLocaleTimeString()),
           chalk.white(data.mac),
           chalk.gray('Skipping update (rate limit)...'),
         );
@@ -144,24 +151,31 @@ function sendDataToWeb(data) {
     .then(
       () => {
         error_count = 0;
-        console.log(chalk.white(data.mac), chalk.green('Saved data'));
+        console.log(
+          chalk.yellow(new Date().toLocaleTimeString()),
+          chalk.white(data.mac),
+          chalk.green('Saved data'),
+        );
       },
       (error) => {
         if (error.response) {
           error_count += 1;
           console.log(
+            chalk.yellow(new Date().toLocaleTimeString()),
             chalk.white(data.mac),
             chalk.red(JSON.stringify(error.response.data, null, 2)),
           );
         } else if (error.request) {
           console.log(
             'Error updating sensor: %s message (no response): %s',
+            chalk.yellow(new Date().toLocaleTimeString()),
             data.mac,
             error.request,
           );
         } else {
           console.log(
             'Error updating sensor: %s message (setting up): %s',
+            chalk.yellow(new Date().toLocaleTimeString()),
             data.mac,
             error.message,
           );
