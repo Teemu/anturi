@@ -35,6 +35,12 @@ npx anturi -t "token here"
 
 Anturi will automatically detect sensors and start sending data. After the first sensors have sent data, you should see sensor data in your dashboard. This can take around 10 seconds.
 
+## Note for Mac OS X users
+
+Your terminal needs Bluetooth access in order for the client application to work:
+
+<img width="827" alt="Screenshot 2022-12-03 at 16 41 15" src="https://user-images.githubusercontent.com/53298/205446502-4e724296-7ed2-4ef4-bb5f-d989418cb9ab.png">
+
 ## Options
 
 You can also use Anturi without the cloud-based solution. In this case, data will not be sent anywhere.
