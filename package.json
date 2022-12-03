@@ -11,9 +11,24 @@
   },
   "bin": "./anturi.js",
   "name": "anturi",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "prettier": {
     "singleQuote": true,
     "trailingComma": "all"
-  }
+  },
+  "license": "MIT",
+  "description": "Anturi is a command line tool for monitoring RuuviTag sensors and sending them to cloud server.",
+  "main": "anturi.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Teemu/anturi.git"
+  },
+  "author": "Teemu",
+  "keywords": [
+    "ruuvitag",
+    "ruuvi",
+    "iot",
+    "anturi"
+  ],
+  "homepage": "https://github.com/Teemu/anturi#readme"
 }

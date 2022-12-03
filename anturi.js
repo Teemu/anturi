@@ -8,7 +8,7 @@ import { program } from 'commander';
 program
   .name('anturi')
   .description('Send data to anturi.nuudeli.com from Ruuvi sensors')
-  .version('0.2.1')
+  .version('0.2.2')
   .option('--url <value>', 'send sensor data to this URL')
   .option('--filter <value...>', 'send only these sensor MAC addresses')
   .option('--timeout <numbers>', 'close Anturi after seconds')
