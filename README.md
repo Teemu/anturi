@@ -1,5 +1,7 @@
 # Anturi
 
+![npm](https://img.shields.io/npm/v/anturi)
+
 Anturi is a free client app that sends data from Ruuvi sensors to the cloud-based monitoring at anturi.nuudeli.com. It can be run on devices such as Raspberry Pi.
 
 ![Screenshot of the Anturi app](https://user-images.githubusercontent.com/53298/205442126-bf9a0e53-8065-4766-bef3-74021b1f68d5.png)
