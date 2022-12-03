@@ -7,9 +7,13 @@
     "node-ruuvitag": "^4.7.0"
   },
   "devDependencies": {
-    "prettier": "2.8.0"
+    "prettier": "^2.8.0"
   },
   "bin": "./anturi.js",
   "name": "anturi",
-  "version": "0.1.0"
+  "version": "0.2.0",
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "all"
+  }
 }
