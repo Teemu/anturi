@@ -8,7 +8,7 @@ import { program } from 'commander';
 program
   .name('anturi')
   .description('Send data to anturi.nuudeli.com from Ruuvi sensors')
-  .version('0.2.3')
+  .version('0.2.4')
   .option('--url <value>', 'send sensor data to this URL')
   .option('--filter <value...>', 'send only these sensor MAC addresses')
   .option('--timeout <numbers>', 'close Anturi after seconds')
@@ -59,11 +59,11 @@ if (options.token) {
 }
 */
 
-let dataSentAt = {};
+let nextUpdateAt = {};
 let wasSensorBeenFiltered = {};
 let error_count = 0;
 
-const MAX_ERROR_THRESHOLD = 30;
+const MAX_ERROR_THRESHOLD = 100;
 const SENSOR_UPDATE_FREQUENCY = 10 * 60 * 1000; // 10 minutes
 const SENSOR_JITTER = 10 * 1000; // 10 second jitter
 
@@ -93,18 +93,56 @@ ruuvi.on('found', (tag) => {
       'humidity:',
       chalk.yellow(String(data.humidity) + ' %'),
     );
-    if (dataSentAt[data.mac]) {
-      var diff = Date.now() - dataSentAt[data.mac];
-      if (diff < SENSOR_UPDATE_FREQUENCY) {
+    if (nextUpdateAt[data.mac]) {
+      var diff = nextUpdateAt[data.mac] - Date.now();
+      if (diff > 0) {
+        // show human readable time, e.g. "in 3 hours", "in 5 minute" or "in 42 seconds"
+        var humanReadableTime = '';
+        var seconds = Math.floor(diff / 1000);
+        var minutes = Math.floor(seconds / 60);
+        var hours = Math.floor(minutes / 60);
+        var days = Math.floor(hours / 24);
+
+        if (days > 0) {
+          humanReadableTime += days + ' day';
+          if (days > 1) {
+            humanReadableTime += 's';
+          }
+        } else if (hours > 0) {
+          humanReadableTime += hours + ' hour';
+          if (hours > 1) {
+            humanReadableTime += 's';
+          }
+        } else if (minutes > 0) {
+          humanReadableTime += minutes + ' minute';
+          if (minutes > 1) {
+            humanReadableTime += 's';
+          }
+        } else {
+          humanReadableTime += seconds + ' second';
+          if (seconds > 1) {
+            humanReadableTime += 's';
+          }
+        }
+
         console.log(
           chalk.yellow(new Date().toLocaleTimeString()),
           chalk.white(data.mac),
-          chalk.gray('Skipping update (rate limit)...'),
+          chalk.gray(
+            'Skipping update, next update in ' +
+              humanReadableTime +
+              ' (rate limit)...',
+          ),
         );
         return;
       }
     }
-    dataSentAt[data.mac] = Date.now() - Math.random() * SENSOR_JITTER;
+    nextUpdateAt[data.mac] =
+      Date.now() +
+      SENSOR_UPDATE_FREQUENCY -
+      Math.random() * SENSOR_JITTER +
+      // add exponential backoff for errors but not more than 24 hours
+      Math.min(Math.pow(2, error_count) * 1000, 24 * 60 * 60 * 1000);
 
     if (options.token) {
       sendDataToWeb(data);
